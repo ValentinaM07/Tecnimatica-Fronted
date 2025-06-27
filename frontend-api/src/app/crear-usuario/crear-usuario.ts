@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-//import { UsuarioService } from 'servicios/usuario.service'; // ✅ usando alias de tsconfig.json
-import { UsuarioRegistro } from 'dtos/usuario-registro'; // ✅ usando alias de tsconfig.json
-import { UsuarioService } from '../../servicios/usuario.service'; // ✅ Correcto
+import { UsuarioRegistro } from 'dtos/usuario-registro'; //alias de tsconfig.json
+import { UsuarioService } from '../../servicios/usuario.service'; 
 
 
 // Definir una interfaz para la respuesta del backend (si la tienes)
