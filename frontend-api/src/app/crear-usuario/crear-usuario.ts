@@ -1,13 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UsuarioService } from '../servicios/usuario.service';
-import { UsuarioRegistro } from '../dtos/usuario-registro';
+//import { UsuarioService } from 'servicios/usuario.service'; // ✅ usando alias de tsconfig.json
+import { UsuarioRegistro } from 'dtos/usuario-registro'; // ✅ usando alias de tsconfig.json
+import { UsuarioService } from '../../servicios/usuario.service'; // ✅ Correcto
+
+
+// Definir una interfaz para la respuesta del backend (si la tienes)
+interface UsuarioRespuesta {
+  id: number;
+  message: string;
+}
 
 @Component({
   selector: 'app-crear-usuario',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './crear-usuario.html'
+  imports: [CommonModule, FormsModule],
+  templateUrl: './crear-usuario.html',
+  // styleUrls: ['./crear-usuario.css'] // Descomenta si tienes este archivo
 })
 export class CrearUsuarioComponent {
   usuario: UsuarioRegistro = {
@@ -17,19 +27,31 @@ export class CrearUsuarioComponent {
 
   mensaje: string = '';
 
-  constructor(private usuarioService: UsuarioService) {}
+  // Inyección correcta del servicio
+  private usuarioService = inject(UsuarioService);
 
   registrar() {
+    // Se espera un tipo de respuesta UsuarioRespuesta
     this.usuarioService.crearUsuario(this.usuario).subscribe({
-      next: () => {
-        this.mensaje = '✅ Usuario creado correctamente.';
+      next: (response: UsuarioRespuesta) => {
+        // Si la respuesta contiene el id, consideramos que el usuario se creó exitosamente
+        if (response.id !== -1) {
+          this.mensaje = `✅ Usuario creado correctamente. ID: ${response.id}`;
+        } else {
+          this.mensaje = `❌ Error: ${response.message}`;
+        }
+        // Limpiar el formulario
+        this.usuario = { emailUs: '', contrasenaUs: '' }; 
       },
       error: () => {
+        // En caso de error en la solicitud
         this.mensaje = '❌ Error al crear usuario.';
       }
     });
   }
 }
+
+
 
 
 

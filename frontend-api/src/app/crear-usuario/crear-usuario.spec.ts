@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { CrearUsuarioComponent } from './crear-usuario';
 
-import { CrearUsuario } from './crear-usuario';
-
-describe('CrearUsuario', () => {
-  let component: CrearUsuario;
-  let fixture: ComponentFixture<CrearUsuario>;
+describe('CrearUsuarioComponent', () => {
+  let component: CrearUsuarioComponent;
+  let fixture: ComponentFixture<CrearUsuarioComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CrearUsuario]
+      imports: [CrearUsuarioComponent] // al ser standalone, se importa directamente
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CrearUsuario);
+    fixture = TestBed.createComponent(CrearUsuarioComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -21,3 +20,4 @@ describe('CrearUsuario', () => {
     expect(component).toBeTruthy();
   });
 });
+
